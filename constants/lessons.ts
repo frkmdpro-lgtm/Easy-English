@@ -30,6 +30,17 @@ export type PracticeQuestion = {
   correctIndex: number;
 };
 
+export type SentenceStructure = {
+  label: string; // e.g. "Positive", "Negative", "Question"
+  pattern: string; // e.g. "Subject + Verb (+s/es)"
+};
+
+export type CommonMistake = {
+  wrong: string;
+  correct: string;
+  explanation: string;
+};
+
 export type Lesson = {
   id: string;
   level: Level;
@@ -49,9 +60,21 @@ export type Lesson = {
   // Present only on lessons that teach a specific grammar point.
   grammarPoint?: string;
   explanation: string;
+  // When this grammar point applies, e.g. "habits", "facts" — mainly for
+  // tense lessons.
+  uses?: string[];
+  // Sentence-building patterns, e.g. Positive/Negative/Question templates —
+  // mainly for tense lessons.
+  structures?: SentenceStructure[];
   // Extra contrasting/contextual sentences beyond the main phrase. Not
   // every lesson needs them, so the engine treats this as optional.
   examples?: LessonExample[];
+  // Tense/grammar lessons can break examples out by sentence type instead
+  // of (or alongside) the generic `examples` list above.
+  positiveExamples?: LessonExample[];
+  negativeExamples?: LessonExample[];
+  questionExamples?: LessonExample[];
+  commonMistakes?: CommonMistake[];
   // A single check-for-understanding question, when relevant.
   practiceQuestions?: PracticeQuestion[];
   // Open-ended prompt for the Speaking step, when relevant.
@@ -175,23 +198,77 @@ export const lessons: Lesson[] = [
     english: 'I go to the office every day.',
     naturalEnglish: 'I go to the office every day.',
     grammarPoint: 'Present Simple',
-    explanation: 'We use the present simple for regular or repeated actions, facts, and habits.',
-    examples: [
-      { romanUrdu: 'Woh roz cricket khelta hai.', english: 'He plays cricket every day.' },
+    explanation:
+      'Present Simple describes actions that happen regularly — not just right now, but as a repeated pattern, habit, or fact. Think of it as describing "what is generally true", not "what is happening this second".',
+    uses: [
+      'Regular actions — things you do again and again',
+      'Habits — things you usually do',
+      'Routines — your normal daily pattern',
+      'Facts — things that are always true',
+      'Things that are generally true',
+    ],
+    structures: [
+      { label: 'Positive', pattern: 'Subject + Verb (+s/es for he/she/it)' },
+      { label: 'Negative', pattern: "Subject + don't/doesn't + base verb" },
+      { label: 'Question', pattern: 'Do/Does + subject + base verb?' },
+    ],
+    positiveExamples: [
+      { romanUrdu: 'Main roz office jaata hoon.', english: 'I go to the office every day.' },
+      { romanUrdu: 'Main subah chai peeta hoon.', english: 'I drink tea in the morning.' },
       {
-        romanUrdu: 'Suraj poorab se nikalta hai.',
-        english: 'The sun rises in the east.',
-        note: 'A fact — always true',
+        romanUrdu: 'Usko cricket pasand hai.',
+        english: 'He likes cricket.',
+        note: 'He/She/It → add -s or -es to the verb (likes, goes, watches)',
+      },
+    ],
+    negativeExamples: [
+      {
+        romanUrdu: 'Main roz coffee nahi peeta.',
+        english: "I don't drink coffee every day.",
+      },
+      {
+        romanUrdu: 'Usko cricket pasand nahi hai.',
+        english: "He doesn't like cricket.",
+        note: 'He/She/It → doesn\'t + base verb — never "doesn\'t likes"',
+      },
+    ],
+    questionExamples: [
+      {
+        romanUrdu: 'Kya tum roz office jaate ho?',
+        english: 'Do you go to the office every day?',
+      },
+      {
+        romanUrdu: 'Kya woh cricket khelta hai?',
+        english: 'Does he play cricket?',
+        note: 'He/She/It → Does + base verb — never "Does he plays"',
+      },
+    ],
+    commonMistakes: [
+      {
+        wrong: 'He go to office every day.',
+        correct: 'He goes to the office every day.',
+        explanation: 'With he/she/it, add -s or -es to the verb.',
+      },
+      {
+        wrong: "He doesn't likes cricket.",
+        correct: "He doesn't like cricket.",
+        explanation: "After doesn't, use the base verb — no extra -s.",
+      },
+      {
+        wrong: 'Does he goes to office?',
+        correct: 'Does he go to the office?',
+        explanation: 'After does, use the base verb — no extra -s.',
       },
     ],
     practiceQuestions: [
       {
-        prompt: 'Choose the sentence about a daily habit',
-        options: ['I am drinking tea.', 'I drink tea every morning.'],
+        prompt: 'Choose the correct sentence',
+        options: ['He go to office every day.', 'He goes to the office every day.'],
         correctIndex: 1,
       },
     ],
-    speakingPrompt: 'Say one thing you do every day.',
+    speakingPrompt:
+      'Say two things you do every day — for example, what time you wake up and what you do after work.',
   },
   {
     id: '5',

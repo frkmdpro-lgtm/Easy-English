@@ -6,18 +6,56 @@ import IconButton from '@/components/IconButton';
 import PrimaryButton from '@/components/PrimaryButton';
 import ProgressBar from '@/components/ProgressBar';
 import { colors, fontSizes, radius, spacing } from '@/constants/theme';
-import { lessons, type Lesson } from '@/constants/lessons';
+import { lessons, type Lesson, type LessonExample } from '@/constants/lessons';
 import { useProgress } from '@/contexts/ProgressContext';
 import { isApproximateMatch, recognizeSpeech, speak } from '@/lib/speech';
 
-type Step = 'intro' | 'understand' | 'examples' | 'practice' | 'speak';
+type Step =
+  | 'intro'
+  | 'understand'
+  | 'use'
+  | 'structure'
+  | 'positive'
+  | 'negative'
+  | 'questions'
+  | 'mistakes'
+  | 'examples'
+  | 'practice'
+  | 'speak';
 
 function getSteps(lesson: Lesson): Step[] {
   const steps: Step[] = ['intro', 'understand'];
+  if (lesson.uses?.length) steps.push('use');
+  if (lesson.structures?.length) steps.push('structure');
+  if (lesson.positiveExamples?.length) steps.push('positive');
+  if (lesson.negativeExamples?.length) steps.push('negative');
+  if (lesson.questionExamples?.length) steps.push('questions');
+  if (lesson.commonMistakes?.length) steps.push('mistakes');
   if (lesson.examples?.length) steps.push('examples');
   if (lesson.practiceQuestions?.length) steps.push('practice');
   if (lesson.speakingPrompt) steps.push('speak');
   return steps;
+}
+
+function ExampleList({ items }: { items: LessonExample[] }) {
+  return (
+    <>
+      {items.map((example, index) => (
+        <View key={`${example.romanUrdu}-${index}`}>
+          {index > 0 && <View style={styles.divider} />}
+          <Text style={styles.exampleRoman}>{example.romanUrdu}</Text>
+          <View style={{ height: spacing.xs }} />
+          <Text style={styles.exampleEnglish}>{example.english}</Text>
+          {example.note && (
+            <>
+              <View style={{ height: spacing.xs }} />
+              <Text style={styles.exampleNote}>{example.note}</Text>
+            </>
+          )}
+        </View>
+      ))}
+    </>
+  );
 }
 
 export default function LessonScreen() {
@@ -118,7 +156,7 @@ export default function LessonScreen() {
 
           {step === 'understand' && (
             <View>
-              <Text style={styles.caption}>Understand</Text>
+              <Text style={styles.caption}>What it means</Text>
               <View style={{ height: spacing.sm }} />
               {lesson.grammarPoint && (
                 <>
@@ -132,24 +170,80 @@ export default function LessonScreen() {
             </View>
           )}
 
+          {step === 'use' && (
+            <View>
+              <Text style={styles.caption}>When do we use it?</Text>
+              <View style={{ height: spacing.md }} />
+              {lesson.uses?.map((use, index) => (
+                <View key={`${lesson.id}-use-${index}`} style={styles.bulletRow}>
+                  <Text style={styles.bulletDot}>•</Text>
+                  <Text style={styles.bulletText}>{use}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {step === 'structure' && (
+            <View>
+              <Text style={styles.caption}>Sentence Structure</Text>
+              <View style={{ height: spacing.md }} />
+              {lesson.structures?.map((item, index) => (
+                <View key={`${lesson.id}-structure-${index}`}>
+                  {index > 0 && <View style={styles.divider} />}
+                  <Text style={styles.structureLabel}>{item.label}</Text>
+                  <View style={{ height: spacing.xs }} />
+                  <Text style={styles.structurePattern}>{item.pattern}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {step === 'positive' && (
+            <View>
+              <Text style={styles.caption}>Positive Sentences</Text>
+              <View style={{ height: spacing.md }} />
+              <ExampleList items={lesson.positiveExamples ?? []} />
+            </View>
+          )}
+
+          {step === 'negative' && (
+            <View>
+              <Text style={styles.caption}>Negative Sentences</Text>
+              <View style={{ height: spacing.md }} />
+              <ExampleList items={lesson.negativeExamples ?? []} />
+            </View>
+          )}
+
+          {step === 'questions' && (
+            <View>
+              <Text style={styles.caption}>Questions</Text>
+              <View style={{ height: spacing.md }} />
+              <ExampleList items={lesson.questionExamples ?? []} />
+            </View>
+          )}
+
+          {step === 'mistakes' && (
+            <View>
+              <Text style={styles.caption}>Common Mistakes</Text>
+              <View style={{ height: spacing.md }} />
+              {lesson.commonMistakes?.map((mistake, index) => (
+                <View key={`${lesson.id}-mistake-${index}`}>
+                  {index > 0 && <View style={styles.divider} />}
+                  <Text style={styles.mistakeWrong}>❌ {mistake.wrong}</Text>
+                  <View style={{ height: spacing.xs }} />
+                  <Text style={styles.mistakeCorrect}>✅ {mistake.correct}</Text>
+                  <View style={{ height: spacing.xs }} />
+                  <Text style={styles.exampleNote}>{mistake.explanation}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+
           {step === 'examples' && (
             <View>
               <Text style={styles.caption}>Examples</Text>
               <View style={{ height: spacing.md }} />
-              {lesson.examples?.map((example, index) => (
-                <View key={`${lesson.id}-example-${index}`}>
-                  {index > 0 && <View style={styles.divider} />}
-                  <Text style={styles.exampleRoman}>{example.romanUrdu}</Text>
-                  <View style={{ height: spacing.xs }} />
-                  <Text style={styles.exampleEnglish}>{example.english}</Text>
-                  {example.note && (
-                    <>
-                      <View style={{ height: spacing.xs }} />
-                      <Text style={styles.exampleNote}>{example.note}</Text>
-                    </>
-                  )}
-                </View>
-              ))}
+              <ExampleList items={lesson.examples ?? []} />
             </View>
           )}
 
@@ -341,6 +435,44 @@ const styles = StyleSheet.create({
   exampleNote: {
     fontSize: fontSizes.xs,
     color: colors.textTertiary,
+  },
+  bulletRow: {
+    flexDirection: 'row',
+    marginBottom: spacing.md,
+  },
+  bulletDot: {
+    fontSize: fontSizes.lg,
+    color: colors.primary,
+    marginRight: spacing.sm,
+    lineHeight: fontSizes.lg * 1.3,
+  },
+  bulletText: {
+    flex: 1,
+    fontSize: fontSizes.lg,
+    color: colors.text,
+    lineHeight: fontSizes.lg * 1.3,
+  },
+  structureLabel: {
+    fontSize: fontSizes.xs,
+    color: colors.textTertiary,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  structurePattern: {
+    fontSize: fontSizes.lg,
+    color: colors.text,
+    fontWeight: '600',
+  },
+  mistakeWrong: {
+    fontSize: fontSizes.md,
+    color: colors.textMuted,
+    fontWeight: '600',
+  },
+  mistakeCorrect: {
+    fontSize: fontSizes.lg,
+    color: colors.text,
+    fontWeight: '700',
   },
   divider: {
     height: 1,
