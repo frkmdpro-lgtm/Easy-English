@@ -2,15 +2,20 @@ import { router } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '@/components/PrimaryButton';
+import ProgressBar from '@/components/ProgressBar';
 import { colors, fontSizes, radius, spacing } from '@/constants/theme';
 import { lessons } from '@/constants/lessons';
 import { useProgress } from '@/contexts/ProgressContext';
 
+const DAILY_GOAL = 5;
+
 export default function HomeScreen() {
-  const { streakDays, lessonsCompleted, completedLessonIds } = useProgress();
+  const { lessonsCompleted, completedLessonIds } = useProgress();
 
   const continueLesson =
     lessons.find((lesson) => !completedLessonIds.includes(lesson.id)) ?? lessons[0];
+
+  const todayCount = Math.min(lessonsCompleted, DAILY_GOAL);
 
   const goToLesson = () => router.push(`/lesson/${continueLesson.id}`);
 
@@ -20,22 +25,25 @@ export default function HomeScreen() {
         <Text style={styles.greeting}>Assalamualaikum 👋</Text>
         <Text style={styles.subheading}>Ready to learn English?</Text>
 
-        <View style={{ height: spacing.lg }} />
+        <View style={{ height: spacing.xl }} />
         <PrimaryButton label="Start Today's Lesson" onPress={goToLesson} />
 
-        <View style={{ height: spacing.xl }} />
-        <Text style={styles.sectionTitle}>Your Progress</Text>
-        <View style={styles.progressRow}>
-          <Text style={styles.progressText}>🔥 {streakDays} day streak</Text>
-          <Text style={styles.progressText}>{lessonsCompleted} lessons completed</Text>
-        </View>
+        <View style={{ height: spacing.xxl }} />
+        <Text style={styles.sectionTitle}>Today's Progress</Text>
+        <View style={{ height: spacing.sm }} />
+        <Text style={styles.progressCount}>
+          {todayCount} / {DAILY_GOAL} lessons
+        </Text>
+        <View style={{ height: spacing.sm }} />
+        <ProgressBar progress={todayCount / DAILY_GOAL} />
 
-        <View style={{ height: spacing.xl }} />
+        <View style={{ height: spacing.xxl }} />
         <Text style={styles.sectionTitle}>Continue Learning</Text>
+        <View style={{ height: spacing.sm }} />
         <View style={styles.card}>
-          <Text style={styles.cardCategory}>{continueLesson.category} English</Text>
+          <Text style={styles.cardCategory}>{continueLesson.category}</Text>
           <Text style={styles.cardPhrase}>{continueLesson.romanUrdu}</Text>
-          <View style={{ height: spacing.md }} />
+          <View style={{ height: spacing.lg }} />
           <PrimaryButton label="Continue" onPress={goToLesson} variant="secondary" />
         </View>
       </ScrollView>
@@ -63,36 +71,30 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   sectionTitle: {
-    fontSize: fontSizes.md,
+    fontSize: fontSizes.sm,
+    fontWeight: '700',
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  progressCount: {
+    fontSize: fontSizes.lg,
     fontWeight: '700',
     color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  progressRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: colors.card,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  progressText: {
-    fontSize: fontSizes.sm,
-    color: colors.text,
-    fontWeight: '600',
   },
   card: {
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     borderRadius: radius.lg,
     padding: spacing.lg,
     borderWidth: 1,
     borderColor: colors.border,
   },
   cardCategory: {
-    fontSize: fontSizes.sm,
+    fontSize: fontSizes.xs,
     color: colors.accent,
     fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
     marginBottom: spacing.xs,
   },
   cardPhrase: {

@@ -32,36 +32,42 @@ export default function PracticeScreen() {
         <View>
           <Text style={styles.title}>Say this in English</Text>
 
-          <View style={{ height: spacing.xl }} />
-          <Text style={styles.caption}>Roman Urdu</Text>
+          <View style={{ height: spacing.xxl }} />
           <Text style={styles.romanUrdu}>{romanUrdu}</Text>
 
           <View style={{ height: spacing.lg }} />
-          <Text style={styles.caption}>Expected English</Text>
           <Text style={styles.expected}>{expected}</Text>
         </View>
 
         <View style={styles.bottom}>
-          {feedback && (
-            <Text style={[styles.feedback, feedback === 'retry' && styles.feedbackRetry]}>
-              {feedback === 'correct' ? 'Great! 👏' : 'Almost! Try again.'}
-            </Text>
-          )}
+          <View style={styles.feedbackArea}>
+            {feedback && (
+              <Text style={[styles.feedback, feedback === 'retry' && styles.feedbackRetry]}>
+                {feedback === 'correct' ? 'Great! 👏' : 'Almost! Try again.'}
+              </Text>
+            )}
+          </View>
 
           <Pressable
-            style={[styles.micButton, isListening && styles.micButtonActive]}
             onPress={handleSpeak}
             disabled={isListening}
+            style={({ pressed }) => [
+              styles.micButton,
+              isListening && styles.micButtonActive,
+              pressed && !isListening && styles.micButtonPressed,
+            ]}
           >
-            <Text style={styles.micText}>
-              {isListening ? 'Listening…' : '🎤 Tap to Speak'}
-            </Text>
+            <Text style={styles.micIcon}>🎤</Text>
           </Pressable>
+          <View style={{ height: spacing.md }} />
+          <Text style={styles.micLabel}>{isListening ? 'Listening…' : 'Tap to Speak'}</Text>
         </View>
       </View>
     </SafeAreaView>
   );
 }
+
+const MIC_SIZE = 128;
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -78,47 +84,53 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: colors.text,
   },
-  caption: {
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
-    fontWeight: '600',
-    marginBottom: spacing.xs,
-  },
   romanUrdu: {
-    fontSize: fontSizes.lg,
-    color: colors.text,
+    fontSize: fontSizes.xl,
+    color: colors.textMuted,
     fontStyle: 'italic',
   },
   expected: {
-    fontSize: fontSizes.xl,
-    color: colors.primary,
+    fontSize: fontSizes.hero,
+    color: colors.text,
     fontWeight: '700',
+    lineHeight: fontSizes.hero * 1.15,
   },
   bottom: {
     alignItems: 'center',
+  },
+  feedbackArea: {
+    minHeight: 40,
+    justifyContent: 'center',
+    marginBottom: spacing.lg,
   },
   feedback: {
     fontSize: fontSizes.lg,
     fontWeight: '700',
     color: colors.primary,
-    marginBottom: spacing.lg,
   },
   feedbackRetry: {
     color: colors.accent,
   },
   micButton: {
-    width: '100%',
+    width: MIC_SIZE,
+    height: MIC_SIZE,
+    borderRadius: MIC_SIZE / 2,
     backgroundColor: colors.primary,
-    borderRadius: radius.pill,
-    paddingVertical: spacing.xl,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  micButtonPressed: {
+    opacity: 0.85,
   },
   micButtonActive: {
-    opacity: 0.7,
+    backgroundColor: colors.accent,
   },
-  micText: {
+  micIcon: {
+    fontSize: 48,
+  },
+  micLabel: {
     fontSize: fontSizes.md,
     fontWeight: '700',
-    color: colors.primaryText,
+    color: colors.text,
   },
 });

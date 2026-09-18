@@ -1,8 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import IconButton from '@/components/IconButton';
 import PrimaryButton from '@/components/PrimaryButton';
-import { colors, fontSizes, radius, spacing } from '@/constants/theme';
+import { colors, fontSizes, spacing } from '@/constants/theme';
 import { lessons } from '@/constants/lessons';
 import { useProgress } from '@/contexts/ProgressContext';
 import { speak } from '@/lib/speech';
@@ -13,6 +14,7 @@ export default function LessonScreen() {
 
   const lessonIndex = lessons.findIndex((lesson) => lesson.id === id);
   const lesson = lessons[lessonIndex] ?? lessons[0];
+  const hasNaturalVariant = lesson.naturalEnglish !== lesson.english;
 
   const handleNext = () => {
     completeLesson(lesson.id);
@@ -27,29 +29,33 @@ export default function LessonScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <View>
-          <Pressable onPress={() => router.back()} hitSlop={12}>
-            <Text style={styles.close}>✕</Text>
-          </Pressable>
-          <Text style={styles.lessonLabel}>Lesson {lessonIndex + 1}</Text>
-
-          <Text style={styles.caption}>Roman Urdu</Text>
-          <Text style={styles.romanUrdu}>{lesson.romanUrdu}</Text>
+        <View style={styles.top}>
+          <View style={styles.topBar}>
+            <Text style={styles.lessonLabel}>Lesson {lessonIndex + 1}</Text>
+            <Pressable onPress={() => router.back()} hitSlop={12}>
+              <Text style={styles.close}>✕</Text>
+            </Pressable>
+          </View>
 
           <View style={{ height: spacing.xl }} />
+          <Text style={styles.romanUrdu}>{lesson.romanUrdu}</Text>
+
+          <View style={{ height: spacing.xxl }} />
+          <Text style={styles.caption}>Say it in English</Text>
+          <View style={{ height: spacing.xs }} />
           <Text style={styles.englishLarge}>{lesson.english}</Text>
 
-          <View style={{ height: spacing.lg }} />
-          <Text style={styles.caption}>Natural English</Text>
-          <Text style={styles.naturalEnglish}>{lesson.naturalEnglish}</Text>
+          {hasNaturalVariant && (
+            <>
+              <View style={{ height: spacing.md }} />
+              <Text style={styles.naturalEnglish}>{lesson.naturalEnglish}</Text>
+            </>
+          )}
         </View>
 
-        <View>
-          <Pressable style={styles.speakerButton} onPress={() => speak(lesson.naturalEnglish)}>
-            <Text style={styles.speakerText}>🔊 Listen</Text>
-          </Pressable>
-
-          <View style={{ height: spacing.md }} />
+        <View style={styles.bottom}>
+          <IconButton icon="🔊" label="Listen" size="lg" onPress={() => speak(lesson.naturalEnglish)} />
+          <View style={{ height: spacing.xl }} />
           <PrimaryButton label="Next" onPress={handleNext} />
         </View>
       </View>
@@ -67,49 +73,45 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: spacing.lg,
   },
+  top: {},
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   close: {
     fontSize: fontSizes.lg,
     color: colors.textMuted,
-    marginBottom: spacing.lg,
   },
   lessonLabel: {
-    fontSize: fontSizes.sm,
+    fontSize: fontSizes.xs,
     color: colors.accent,
     fontWeight: '700',
-    marginBottom: spacing.xl,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   caption: {
     fontSize: fontSizes.sm,
     color: colors.textMuted,
     fontWeight: '600',
-    marginBottom: spacing.xs,
   },
   romanUrdu: {
-    fontSize: fontSizes.lg,
-    color: colors.text,
+    fontSize: fontSizes.xl,
+    color: colors.textMuted,
     fontStyle: 'italic',
   },
   englishLarge: {
-    fontSize: fontSizes.xxl,
+    fontSize: fontSizes.hero,
     fontWeight: '700',
     color: colors.text,
+    lineHeight: fontSizes.hero * 1.15,
   },
   naturalEnglish: {
-    fontSize: fontSizes.lg,
+    fontSize: fontSizes.md,
     color: colors.primary,
     fontWeight: '600',
   },
-  speakerButton: {
-    backgroundColor: colors.card,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingVertical: spacing.lg,
+  bottom: {
     alignItems: 'center',
-  },
-  speakerText: {
-    fontSize: fontSizes.md,
-    color: colors.text,
-    fontWeight: '600',
   },
 });

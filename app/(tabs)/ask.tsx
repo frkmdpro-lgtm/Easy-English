@@ -64,16 +64,18 @@ export default function AskAIScreen() {
           />
 
           {result && (
-            <View style={styles.resultCard}>
-              <Text style={styles.caption}>English</Text>
+            <View style={styles.result}>
+              <Text style={styles.sectionLabel}>English</Text>
               <Text style={styles.englishText}>{result.english}</Text>
 
-              <View style={{ height: spacing.md }} />
-              <Text style={styles.caption}>More natural</Text>
+              <View style={styles.divider} />
+
+              <Text style={styles.sectionLabel}>More Natural</Text>
               <Text style={styles.naturalText}>{result.naturalEnglish}</Text>
 
-              <View style={{ height: spacing.md }} />
-              <Text style={styles.caption}>Roman Urdu explanation</Text>
+              <View style={styles.divider} />
+
+              <Text style={styles.sectionLabel}>Why?</Text>
               <Text style={styles.explanationText}>{result.explanation}</Text>
 
               <View style={{ height: spacing.lg }} />
@@ -82,10 +84,10 @@ export default function AskAIScreen() {
                   style={styles.smallButton}
                   onPress={() => speak(result.naturalEnglish)}
                 >
-                  <Text style={styles.smallButtonText}>🔊 Listen</Text>
+                  <Text style={styles.smallButtonText}>Listen</Text>
                 </Pressable>
                 <Pressable style={styles.smallButton} onPress={handlePractice}>
-                  <Text style={styles.smallButtonText}>🎤 Practice</Text>
+                  <Text style={styles.smallButtonText}>Practice</Text>
                 </Pressable>
               </View>
             </View>
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   input: {
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.border,
@@ -126,22 +128,24 @@ const styles = StyleSheet.create({
     minHeight: 120,
     textAlignVertical: 'top',
   },
-  resultCard: {
+  result: {
     marginTop: spacing.xl,
-    backgroundColor: colors.card,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    padding: spacing.lg,
   },
-  caption: {
-    fontSize: fontSizes.sm,
+  sectionLabel: {
+    fontSize: fontSizes.xs,
     color: colors.textMuted,
-    fontWeight: '600',
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
     marginBottom: spacing.xs,
   },
+  divider: {
+    height: 1,
+    backgroundColor: colors.border,
+    marginVertical: spacing.lg,
+  },
   englishText: {
-    fontSize: fontSizes.lg,
+    fontSize: fontSizes.xxl,
     fontWeight: '700',
     color: colors.text,
   },
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
   },
   explanationText: {
     fontSize: fontSizes.md,
-    color: colors.text,
+    color: colors.textMuted,
   },
   resultButtons: {
     flexDirection: 'row',
@@ -160,16 +164,14 @@ const styles = StyleSheet.create({
   },
   smallButton: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.primarySoft,
     borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.border,
     paddingVertical: spacing.md,
     alignItems: 'center',
   },
   smallButtonText: {
     fontSize: fontSizes.sm,
-    fontWeight: '600',
-    color: colors.text,
+    fontWeight: '700',
+    color: colors.primary,
   },
 });

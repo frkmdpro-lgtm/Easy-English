@@ -1,12 +1,14 @@
 export const colors = {
-  background: '#FBF6EC',
-  card: '#FFFFFF',
-  text: '#1B2A4A',
-  textMuted: '#5B6B8C',
-  primary: '#1C7C74',
+  background: '#FAF6EC',
+  surface: '#FFFFFF',
+  surfaceMuted: '#F1EADA',
+  text: '#152238',
+  textMuted: '#6B7280',
+  primary: '#146B63',
+  primarySoft: '#E3EEEC',
   primaryText: '#FFFFFF',
-  accent: '#C9A24B',
-  border: '#EAE1CC',
+  accent: '#C2A05B',
+  border: '#E9E0CC',
 };
 
 export const spacing = {
@@ -25,9 +27,11 @@ export const radius = {
 };
 
 export const fontSizes = {
+  xs: 13,
   sm: 15,
   md: 18,
   lg: 22,
   xl: 28,
   xxl: 34,
+  hero: 38,
 };

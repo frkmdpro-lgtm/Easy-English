@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fontSizes, radius, spacing } from '@/constants/theme';
+import { colors, fontSizes, spacing } from '@/constants/theme';
 import { useProgress } from '@/contexts/ProgressContext';
 
 export default function ProfileScreen() {
@@ -17,14 +17,15 @@ export default function ProfileScreen() {
       <View style={styles.container}>
         <Text style={styles.title}>Your Progress</Text>
 
-        <View style={{ height: spacing.lg }} />
-        {stats.map((stat) => (
-          <View key={stat.label} style={styles.statCard}>
-            <Text style={styles.emoji}>{stat.emoji}</Text>
-            <View style={{ flex: 1 }}>
+        <View style={{ height: spacing.xl }} />
+        {stats.map((stat, index) => (
+          <View key={stat.label}>
+            <View style={styles.statRow}>
+              <Text style={styles.emoji}>{stat.emoji}</Text>
               <Text style={styles.statLabel}>{stat.label}</Text>
               <Text style={styles.statValue}>{stat.value}</Text>
             </View>
+            {index < stats.length - 1 && <View style={styles.divider} />}
           </View>
         ))}
       </View>
@@ -45,28 +46,29 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: colors.text,
   },
-  statCard: {
+  statRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.card,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
+    paddingVertical: spacing.lg,
     gap: spacing.md,
   },
   emoji: {
-    fontSize: 32,
+    fontSize: 22,
+    width: 32,
   },
   statLabel: {
-    fontSize: fontSizes.sm,
-    color: colors.textMuted,
+    flex: 1,
+    fontSize: fontSizes.md,
+    color: colors.text,
     fontWeight: '600',
   },
   statValue: {
-    fontSize: fontSizes.lg,
-    color: colors.text,
-    fontWeight: '700',
+    fontSize: fontSizes.md,
+    color: colors.textMuted,
+    fontWeight: '600',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.border,
   },
 });

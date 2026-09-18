@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
     borderRadius: radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 56,
+    minHeight: 58,
   },
   primary: {
     backgroundColor: colors.primary,
   },
   secondary: {
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
   primaryText: {
     color: colors.primaryText,
     fontSize: fontSizes.md,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   secondaryText: {
     color: colors.text,
     fontSize: fontSizes.md,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });
