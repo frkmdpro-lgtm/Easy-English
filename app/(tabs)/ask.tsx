@@ -13,27 +13,36 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '@/components/PrimaryButton';
 import { colors, fontSizes, radius, spacing } from '@/constants/theme';
-import { translateToEnglish, type AskAIResponse } from '@/lib/mockAI';
+import { askEnglishTeacher, type AskEnglishTeacherResponse } from '@/lib/claude';
 import { speak } from '@/lib/speech';
 
 export default function AskAIScreen() {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<AskAIResponse | null>(null);
+  const [result, setResult] = useState<AskEnglishTeacherResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleTranslate = async () => {
-    if (!input.trim()) return;
+  const handleAsk = async () => {
+    if (!input.trim() || isLoading) return;
     setIsLoading(true);
-    const response = await translateToEnglish(input);
-    setResult(response);
-    setIsLoading(false);
+    setError(false);
+    try {
+      const response = await askEnglishTeacher(input);
+      setResult(response);
+    } catch (err) {
+      console.error('askEnglishTeacher failed:', err);
+      setResult(null);
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handlePractice = () => {
     if (!result) return;
     router.push({
       pathname: '/practice',
-      params: { romanUrdu: input, expected: result.naturalEnglish },
+      params: { romanUrdu: input, expected: result.moreNatural },
     });
   };
 
@@ -59,9 +68,18 @@ export default function AskAIScreen() {
 
           <View style={{ height: spacing.md }} />
           <PrimaryButton
-            label={isLoading ? 'Translating…' : 'Translate'}
-            onPress={handleTranslate}
+            label={isLoading ? 'Thinking…' : 'Teach Me'}
+            onPress={handleAsk}
+            disabled={isLoading}
           />
+
+          {error && (
+            <View style={styles.errorBox}>
+              <Text style={styles.errorText}>Something went wrong. Try again.</Text>
+              <View style={{ height: spacing.md }} />
+              <PrimaryButton label="Try Again" onPress={handleAsk} variant="secondary" />
+            </View>
+          )}
 
           {result && (
             <View style={styles.result}>
@@ -71,19 +89,38 @@ export default function AskAIScreen() {
               <View style={styles.divider} />
 
               <Text style={styles.sectionLabel}>More Natural</Text>
-              <Text style={styles.naturalText}>{result.naturalEnglish}</Text>
+              <Text style={styles.naturalText}>{result.moreNatural}</Text>
 
               <View style={styles.divider} />
 
               <Text style={styles.sectionLabel}>Why?</Text>
-              <Text style={styles.explanationText}>{result.explanation}</Text>
+              <Text style={styles.explanationText}>{result.why}</Text>
+
+              {result.grammarPoint.length > 0 && (
+                <>
+                  <View style={{ height: spacing.md }} />
+                  <View style={styles.tag}>
+                    <Text style={styles.tagText}>{result.grammarPoint}</Text>
+                  </View>
+                </>
+              )}
+
+              {result.examples.length > 0 && (
+                <>
+                  <View style={styles.divider} />
+                  <Text style={styles.sectionLabel}>Examples</Text>
+                  <View style={{ height: spacing.xs }} />
+                  {result.examples.map((example, index) => (
+                    <Text key={index} style={styles.exampleText}>
+                      {example}
+                    </Text>
+                  ))}
+                </>
+              )}
 
               <View style={{ height: spacing.lg }} />
               <View style={styles.resultButtons}>
-                <Pressable
-                  style={styles.smallButton}
-                  onPress={() => speak(result.naturalEnglish)}
-                >
+                <Pressable style={styles.smallButton} onPress={() => speak(result.moreNatural)}>
                   <Text style={styles.smallButtonText}>Listen</Text>
                 </Pressable>
                 <Pressable style={styles.smallButton} onPress={handlePractice}>
@@ -128,6 +165,14 @@ const styles = StyleSheet.create({
     minHeight: 120,
     textAlignVertical: 'top',
   },
+  errorBox: {
+    marginTop: spacing.xl,
+  },
+  errorText: {
+    fontSize: fontSizes.md,
+    color: colors.textMuted,
+    fontWeight: '600',
+  },
   result: {
     marginTop: spacing.xl,
   },
@@ -157,6 +202,23 @@ const styles = StyleSheet.create({
   explanationText: {
     fontSize: fontSizes.md,
     color: colors.textMuted,
+  },
+  tag: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.primarySoft,
+    borderRadius: radius.pill,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.md,
+  },
+  tagText: {
+    fontSize: fontSizes.sm,
+    color: colors.primary,
+    fontWeight: '700',
+  },
+  exampleText: {
+    fontSize: fontSizes.md,
+    color: colors.text,
+    marginBottom: spacing.xs,
   },
   resultButtons: {
     flexDirection: 'row',
