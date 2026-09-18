@@ -1,73 +1,60 @@
-import { useLocalSearchParams } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { router } from 'expo-router';
+import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fontSizes, radius, spacing } from '@/constants/theme';
-import { lessons } from '@/constants/lessons';
-import { isApproximateMatch, recognizeSpeech } from '@/lib/speech';
+import { colors, fontSizes, spacing } from '@/constants/theme';
 
-type Feedback = 'correct' | 'retry' | null;
+type PracticeOption = {
+  label: string;
+  comingSoon: boolean;
+};
+
+const OPTIONS: PracticeOption[] = [
+  { label: 'Tenses', comingSoon: true },
+  { label: 'Grammar', comingSoon: true },
+  { label: 'Vocabulary', comingSoon: true },
+  { label: 'Speaking', comingSoon: false },
+];
 
 export default function PracticeScreen() {
-  const params = useLocalSearchParams<{ romanUrdu?: string; expected?: string }>();
+  const [comingSoonLabel, setComingSoonLabel] = useState<string | null>(null);
 
-  const randomLesson = useMemo(() => lessons[Math.floor(Math.random() * lessons.length)], []);
-  const romanUrdu = params.romanUrdu ?? randomLesson.romanUrdu;
-  const expected = params.expected ?? randomLesson.naturalEnglish;
-
-  const [isListening, setIsListening] = useState(false);
-  const [feedback, setFeedback] = useState<Feedback>(null);
-
-  const handleSpeak = async () => {
-    setFeedback(null);
-    setIsListening(true);
-    const transcript = await recognizeSpeech(expected);
-    setIsListening(false);
-    setFeedback(isApproximateMatch(transcript, expected) ? 'correct' : 'retry');
+  const handleSelect = (option: PracticeOption) => {
+    if (option.comingSoon) {
+      setComingSoonLabel(option.label);
+      return;
+    }
+    setComingSoonLabel(null);
+    router.push('/practice-drill');
   };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
-        <View>
-          <Text style={styles.title}>Say this in English</Text>
+        <Text style={styles.title}>Practice</Text>
+        <Text style={styles.subtitle}>What do you want to practice?</Text>
 
-          <View style={{ height: spacing.xxl }} />
-          <Text style={styles.romanUrdu}>{romanUrdu}</Text>
-
-          <View style={{ height: spacing.lg }} />
-          <Text style={styles.expected}>{expected}</Text>
-        </View>
-
-        <View style={styles.bottom}>
-          <View style={styles.feedbackArea}>
-            {feedback && (
-              <Text style={[styles.feedback, feedback === 'retry' && styles.feedbackRetry]}>
-                {feedback === 'correct' ? 'Great! 👏' : 'Almost! Try again.'}
-              </Text>
-            )}
+        <View style={{ height: spacing.xl }} />
+        {OPTIONS.map((option, index) => (
+          <View key={option.label}>
+            {index > 0 && <View style={styles.divider} />}
+            <Pressable style={styles.row} onPress={() => handleSelect(option)}>
+              <Text style={styles.rowLabel}>{option.label}</Text>
+              <Text style={styles.rowChevron}>›</Text>
+            </Pressable>
           </View>
+        ))}
 
-          <Pressable
-            onPress={handleSpeak}
-            disabled={isListening}
-            style={({ pressed }) => [
-              styles.micButton,
-              isListening && styles.micButtonActive,
-              pressed && !isListening && styles.micButtonPressed,
-            ]}
-          >
-            <Text style={styles.micIcon}>🎤</Text>
-          </Pressable>
-          <View style={{ height: spacing.md }} />
-          <Text style={styles.micLabel}>{isListening ? 'Listening…' : 'Tap to Speak'}</Text>
-        </View>
+        {comingSoonLabel && (
+          <>
+            <View style={{ height: spacing.lg }} />
+            <Text style={styles.comingSoonText}>{comingSoonLabel} practice is coming next.</Text>
+          </>
+        )}
       </View>
     </SafeAreaView>
   );
 }
-
-const MIC_SIZE = 128;
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -75,8 +62,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   container: {
-    flex: 1,
-    justifyContent: 'space-between',
     padding: spacing.lg,
   },
   title: {
@@ -84,53 +69,33 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: colors.text,
   },
-  romanUrdu: {
-    fontSize: fontSizes.xl,
-    color: colors.textMuted,
-    fontStyle: 'italic',
-  },
-  expected: {
-    fontSize: fontSizes.hero,
-    color: colors.text,
-    fontWeight: '700',
-    lineHeight: fontSizes.hero * 1.15,
-  },
-  bottom: {
-    alignItems: 'center',
-  },
-  feedbackArea: {
-    minHeight: 40,
-    justifyContent: 'center',
-    marginBottom: spacing.lg,
-  },
-  feedback: {
-    fontSize: fontSizes.lg,
-    fontWeight: '700',
-    color: colors.primary,
-  },
-  feedbackRetry: {
-    color: colors.textMuted,
-  },
-  micButton: {
-    width: MIC_SIZE,
-    height: MIC_SIZE,
-    borderRadius: MIC_SIZE / 2,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  micButtonPressed: {
-    opacity: 0.85,
-  },
-  micButtonActive: {
-    opacity: 0.5,
-  },
-  micIcon: {
-    fontSize: 48,
-  },
-  micLabel: {
+  subtitle: {
     fontSize: fontSizes.md,
-    fontWeight: '700',
+    color: colors.textMuted,
+    marginTop: spacing.xs,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: spacing.lg,
+  },
+  rowLabel: {
+    fontSize: fontSizes.md,
     color: colors.text,
+    fontWeight: '600',
+  },
+  rowChevron: {
+    fontSize: fontSizes.lg,
+    color: colors.textTertiary,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.border,
+  },
+  comingSoonText: {
+    fontSize: fontSizes.sm,
+    color: colors.textMuted,
+    fontWeight: '600',
   },
 });

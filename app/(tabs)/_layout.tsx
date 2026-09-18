@@ -39,12 +39,6 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="ask"
-        options={{
-          tabBarIcon: ({ focused }) => <TabLabel label="Ask" focused={focused} />,
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           tabBarIcon: ({ focused }) => <TabLabel label="Profile" focused={focused} />,

@@ -15,6 +15,10 @@ export default function RootLayout() {
             name="lesson/[id]"
             options={{ headerShown: false, presentation: 'card' }}
           />
+          <Stack.Screen
+            name="practice-drill"
+            options={{ headerShown: false, presentation: 'card' }}
+          />
         </Stack>
       </ProgressProvider>
     </SafeAreaProvider>
