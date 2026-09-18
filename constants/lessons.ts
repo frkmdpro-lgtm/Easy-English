@@ -224,11 +224,9 @@ export const lessons: Lesson[] = [
     explanation:
       'Present Simple describes actions that happen regularly — not just right now, but as a repeated pattern, habit, or fact. Think of it as describing "what is generally true", not "what is happening this second".',
     uses: [
-      'Regular actions — things you do again and again',
-      'Habits — things you usually do',
-      'Routines — your normal daily pattern',
-      'Facts — things that are always true',
-      'Things that are generally true',
+      'Habits and routines — things you regularly do',
+      'Facts and general truths — things that are always true',
+      'Repeated actions that happen again and again',
     ],
     structures: [
       { label: 'Positive', pattern: 'Subject + Verb (+s/es for he/she/it)' },
@@ -276,6 +274,12 @@ export const lessons: Lesson[] = [
         correct: 'Does he go to the office?',
         explanation: 'After does, use the base verb — no extra -s.',
       },
+      {
+        wrong: 'I go to the office now.',
+        correct: 'I am going to the office now.',
+        explanation:
+          'For something happening right now, use Present Continuous, not Present Simple.',
+      },
     ],
     comparison: {
       title: 'Present Simple vs Present Continuous',
@@ -319,9 +323,8 @@ export const lessons: Lesson[] = [
     explanation:
       'Present Continuous describes an action that is happening right now, or a temporary action happening around this period — not a permanent habit.',
     uses: [
-      'Actions happening right now, at this moment',
-      'Temporary actions happening around this time (this week, these days)',
-      'Something in progress, even if not this exact second',
+      'Something happening right now, or in progress around this time — even if not this exact second',
+      'Temporary actions or situations (this week, these days)',
     ],
     structures: [
       { label: 'Positive', pattern: 'Subject + am/is/are + verb-ing' },
@@ -330,7 +333,7 @@ export const lessons: Lesson[] = [
     ],
     positiveExamples: [
       { romanUrdu: 'Main abhi office jaara hoon.', english: 'I am going to the office now.' },
-      { romanUrdu: 'Woh abhi khana kha raha hai.', english: 'He is eating food right now.' },
+      { romanUrdu: 'Woh abhi khana kha raha hai.', english: 'He is eating right now.' },
       {
         romanUrdu: 'Hum log is hafte ek naya project kar rahe hain.',
         english: 'We are working on a new project this week.',
@@ -355,9 +358,10 @@ export const lessons: Lesson[] = [
         explanation: '"Know" is a state, not an action — we don\'t use it in continuous form.',
       },
       {
-        wrong: 'She is liking this song.',
-        correct: 'She likes this song.',
-        explanation: '"Like" describes a feeling, not an ongoing action — use Present Simple.',
+        wrong: 'I am going to the office every day.',
+        correct: 'I go to the office every day.',
+        explanation:
+          'For a daily habit, use Present Simple, not Present Continuous — "every day" signals a routine, not something happening right now.',
       },
       {
         wrong: 'He going to the office now.',
@@ -428,8 +432,8 @@ export const lessons: Lesson[] = [
         note: 'Result matters right now — he is there',
       },
       {
-        romanUrdu: 'Hum kabhi Dubai nahi gaye.',
-        english: 'We have never been to Dubai.',
+        romanUrdu: 'Hum Dubai gaye hain.',
+        english: 'We have been to Dubai.',
         note: 'Life experience up to now',
       },
     ],
@@ -438,7 +442,7 @@ export const lessons: Lesson[] = [
       { romanUrdu: 'Usne yeh kaam complete nahi kiya hai.', english: "He hasn't completed this work." },
     ],
     questionExamples: [
-      { romanUrdu: 'Kya tumne kabhi Dubai dekha hai?', english: 'Have you ever been to Dubai?' },
+      { romanUrdu: 'Kya tum kabhi Dubai gaye ho?', english: 'Have you ever been to Dubai?' },
       { romanUrdu: 'Kya usne apna kaam khatam kar liya hai?', english: 'Has he finished his work?' },
     ],
     commonMistakes: [
@@ -455,9 +459,9 @@ export const lessons: Lesson[] = [
           'With a specific past time word like "yesterday", use Past Simple, not Present Perfect.',
       },
       {
-        wrong: 'She has go to the market.',
-        correct: 'She has gone to the market.',
-        explanation: 'The past participle of "go" is "gone", not "go".',
+        wrong: 'I has finished my work.',
+        correct: 'I have finished my work.',
+        explanation: 'Use "have" with I/you/we/they, and "has" only with he/she/it.',
       },
     ],
     comparison: {
@@ -519,7 +523,7 @@ export const lessons: Lesson[] = [
       },
       { romanUrdu: 'Woh subah se kaam kar raha hai.', english: 'He has been working since morning.' },
       {
-        romanUrdu: 'Mereku dekho, main daud kar aaya hoon.',
+        romanUrdu: 'Mereku dekho, abhi abhi daud kar aaya hoon.',
         english: "Look at me — I've been running.",
         note: 'Just stopped, but the effect (out of breath) is visible now',
       },
@@ -543,12 +547,12 @@ export const lessons: Lesson[] = [
         wrong: 'I am studying since two hours.',
         correct: 'I have been studying for two hours.',
         explanation:
-          'Use Present Perfect Continuous (have been + verb-ing), not Present Continuous, when talking about duration up to now.',
+          'Use Present Perfect Continuous (have been + verb-ing) for duration up to now — and use "for" with a length of time, not "since".',
       },
       {
-        wrong: 'I have been knowing her for years.',
-        correct: 'I have known her for years.',
-        explanation: '"Know" is a state verb — use Present Perfect, not the continuous form.',
+        wrong: 'I have being working here for two years.',
+        correct: 'I have been working here for two years.',
+        explanation: '"Been" (not "being") is the correct word after have/has in this tense.',
       },
       {
         wrong: 'She has been study all day.',
@@ -609,7 +613,7 @@ export const lessons: Lesson[] = [
     positiveExamples: [
       { romanUrdu: 'Humne pichle hafte movie dekhi.', english: 'We watched a movie last week.' },
       {
-        romanUrdu: 'Woh school gaya tha.',
+        romanUrdu: 'Woh school gaya.',
         english: 'He went to school.',
         note: '"went" — irregular past form of "go"',
       },
@@ -621,12 +625,12 @@ export const lessons: Lesson[] = [
     ],
     questionExamples: [
       { romanUrdu: 'Kya tumne kal usse baat ki?', english: 'Did you talk to him yesterday?' },
-      { romanUrdu: 'Kya woh party mein aayi thi?', english: 'Did she come to the party?' },
+      { romanUrdu: 'Kya woh party mein aayi?', english: 'Did she come to the party?' },
     ],
     commonMistakes: [
       {
-        wrong: "He don't go to office.",
-        correct: "He didn't go to the office.",
+        wrong: "He don't go to office yesterday.",
+        correct: "He didn't go to the office yesterday.",
         explanation: 'For past negatives, use "didn\'t" for all subjects — not "don\'t".',
       },
       {
@@ -681,9 +685,8 @@ export const lessons: Lesson[] = [
     explanation:
       'Past Continuous describes an action that was already in progress at a specific moment in the past — often interrupted by another action, or happening alongside another.',
     uses: [
-      'An action in progress at a specific past moment',
-      'An ongoing past action interrupted by a shorter action',
-      'Two actions happening at the same time in the past',
+      'An action already in progress at a specific past moment',
+      'Two past actions happening together, or one interrupting another',
       'Setting the scene or background for a story',
     ],
     structures: [
@@ -769,9 +772,8 @@ export const lessons: Lesson[] = [
     explanation:
       'Past Perfect shows that one past action happened before another past action. It puts one event further back in the past than the other — the "past of the past".',
     uses: [
-      'An action that happened before another past action',
-      'Explaining the earlier of two past events',
-      'The "past of the past"',
+      'The earlier of two past events, when the order needs to be clear',
+      'Explaining a past situation by pointing to what had already happened before it',
     ],
     structures: [
       { label: 'Positive', pattern: 'Subject + had + past participle' },
@@ -790,7 +792,7 @@ export const lessons: Lesson[] = [
       },
       {
         romanUrdu: 'Khana khane se pehle hum ghar pahunch chuke the.',
-        english: 'We had reached home before we had dinner.',
+        english: 'We had reached home before dinner.',
       },
     ],
     negativeExamples: [
@@ -866,9 +868,8 @@ export const lessons: Lesson[] = [
     explanation:
       'Past Perfect Continuous emphasizes how long an activity had been continuing before a certain point in the past, or an activity that had been happening and had just stopped right before another past event.',
     uses: [
-      'An activity that had been continuing for a period of time before another past action',
-      'Emphasizing the duration of a past activity, up to a past point',
-      'Explaining the cause of a past situation (an activity that had just stopped)',
+      'An activity that had been going on for some time before another past event',
+      'Explaining the cause of a past situation — an activity that had just stopped, with an effect that still showed',
     ],
     structures: [
       { label: 'Positive', pattern: 'Subject + had + been + verb-ing' },
@@ -881,7 +882,7 @@ export const lessons: Lesson[] = [
         english: 'I had been waiting for two hours when the bus arrived.',
       },
       {
-        romanUrdu: 'Woh thak gaya tha kyunki woh puri raat kaam kar raha tha.',
+        romanUrdu: 'Woh thak gaya kyunki woh puri raat se kaam kar raha tha.',
         english: 'He was tired because he had been working all night.',
         note: 'The activity had just stopped, but the effect (tired) remained',
       },
@@ -903,7 +904,7 @@ export const lessons: Lesson[] = [
         wrong: 'I was waiting since two hours when the bus came.',
         correct: 'I had been waiting for two hours when the bus came.',
         explanation:
-          'Use Past Perfect Continuous (had been + verb-ing) for a duration already going on before another past event.',
+          'Use Past Perfect Continuous (had been + verb-ing) for a duration already going on before another past event — and use "for" with a length of time, not "since".',
       },
       {
         wrong: 'He had been know her for years before they met again.',
@@ -938,7 +939,7 @@ export const lessons: Lesson[] = [
         correctIndex: 1,
       },
     ],
-    speakingPrompt: 'Tell me about something you had been doing for a while before something else happened.',
+    speakingPrompt: 'Tell me what you had been doing for a while, right before something interrupted you.',
   },
   {
     id: '12',
@@ -957,10 +958,9 @@ export const lessons: Lesson[] = [
     explanation:
       'Future Simple talks about future facts, predictions, spontaneous decisions made right now, and promises — using "will".',
     uses: [
-      'Predictions about the future',
+      'Predictions and facts about the future',
       'Spontaneous decisions made at the moment of speaking',
       'Promises and offers',
-      'Facts about the future',
     ],
     structures: [
       { label: 'Positive', pattern: 'Subject + will + base verb' },
@@ -1046,8 +1046,7 @@ export const lessons: Lesson[] = [
     explanation:
       'Future Continuous describes an action that will be in progress at a specific time in the future.',
     uses: [
-      'An action in progress at a specific future time',
-      'Something that will already be happening when another future event occurs',
+      'An action that will be in progress at a specific future time, or already happening when another future event occurs',
       "Polite questions about someone's plans",
     ],
     structures: [
@@ -1072,7 +1071,7 @@ export const lessons: Lesson[] = [
     ],
     questionExamples: [
       { romanUrdu: 'Kya tum kal is waqt free honge?', english: 'Will you be free at this time tomorrow?' },
-      { romanUrdu: 'Kya woh meeting mein hoga?', english: 'Will he be attending the meeting?' },
+      { romanUrdu: 'Kya woh meeting attend kar raha hoga?', english: 'Will he be attending the meeting?' },
     ],
     commonMistakes: [
       {
@@ -1127,8 +1126,7 @@ export const lessons: Lesson[] = [
     explanation:
       'Future Perfect shows that an action will be completed before a specific point in the future.',
     uses: [
-      'An action that will be finished before a stated future time',
-      'Looking back from a future point at something already completed by then',
+      'Confirming that something will already be finished by a specific future point (a deadline)',
     ],
     structures: [
       { label: 'Positive', pattern: 'Subject + will have + past participle' },
@@ -1159,8 +1157,8 @@ export const lessons: Lesson[] = [
         english: 'Will you have finished this work by evening?',
       },
       {
-        romanUrdu: 'Kya woh 5 saal tak yahan kaam kar chuki hogi?',
-        english: 'Will she have worked here for 5 years by then?',
+        romanUrdu: 'Kya hum log show shuru hone se pehle pahunch chuke honge?',
+        english: 'Will we have arrived before the show starts?',
       },
     ],
     commonMistakes: [
@@ -1217,8 +1215,7 @@ export const lessons: Lesson[] = [
     explanation:
       'Future Perfect Continuous emphasizes the duration of an activity that will still be continuing up to a specific point in the future.',
     uses: [
-      'Emphasizing how long an activity will have been going on by a future point',
-      'An ongoing activity that continues right up to a stated future time',
+      'Emphasizing how long an activity will have been continuing, right up to a specific point in the future',
     ],
     structures: [
       { label: 'Positive', pattern: 'Subject + will have been + verb-ing' },
@@ -1241,8 +1238,8 @@ export const lessons: Lesson[] = [
     ],
     negativeExamples: [
       {
-        romanUrdu: 'Agle hafte tak, hum yahan zyada der se nahi reh rahe honge.',
-        english: "By next week, we won't have been living here for long.",
+        romanUrdu: 'Agle mahine tak, main is naye project pe zyada der se kaam nahi kar raha hounga.',
+        english: "By next month, I won't have been working on this new project for long.",
       },
       {
         romanUrdu: 'Shaam tak, woh kaafi der se wait nahi kar rahi hogi.',
