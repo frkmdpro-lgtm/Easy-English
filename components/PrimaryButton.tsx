@@ -5,17 +5,20 @@ type Props = {
   label: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary';
+  disabled?: boolean;
 };
 
-export default function PrimaryButton({ label, onPress, variant = 'primary' }: Props) {
+export default function PrimaryButton({ label, onPress, variant = 'primary', disabled }: Props) {
   const isPrimary = variant === 'primary';
   return (
     <Pressable
       onPress={onPress}
+      disabled={disabled}
       style={({ pressed }) => [
         styles.button,
         isPrimary ? styles.primary : styles.secondary,
-        pressed && styles.pressed,
+        disabled && styles.disabled,
+        pressed && !disabled && styles.pressed,
       ]}
     >
       <Text style={isPrimary ? styles.primaryText : styles.secondaryText}>{label}</Text>
@@ -42,6 +45,9 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.85,
+  },
+  disabled: {
+    opacity: 0.4,
   },
   primaryText: {
     color: colors.primaryText,

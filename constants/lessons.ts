@@ -13,6 +13,12 @@ export type LessonExample = {
   note?: string;
 };
 
+export type PracticeQuestion = {
+  prompt: string;
+  options: string[];
+  correctIndex: number;
+};
+
 export type Lesson = {
   id: string;
   level: Level;
@@ -25,15 +31,16 @@ export type Lesson = {
   // Present only on lessons that teach a specific grammar point.
   grammarPoint?: string;
   explanation: string;
-  // Extra contrasting/contextual sentences beyond the main phrase.
+  // Extra contrasting/contextual sentences beyond the main phrase. Not
+  // every lesson needs them, so the engine treats this as optional.
   examples?: LessonExample[];
-  // Extra Roman Urdu prompts for the Practice screen to draw on later.
-  practiceQuestions?: string[];
-  // Open-ended prompt for the Speaking flow.
+  // A single check-for-understanding question, when relevant.
+  practiceQuestions?: PracticeQuestion[];
+  // Open-ended prompt for the Speaking step, when relevant.
   speakingPrompt?: string;
 };
 
-// This is a small sample set proving the data model supports the full
+// This is a small sample set proving the lesson engine supports the full
 // curriculum (everyday phrases through advanced/speaking content), not
 // the full lesson library. The real curriculum will contain hundreds of
 // lessons built on this same shape.
@@ -55,7 +62,13 @@ export const lessons: Lesson[] = [
         english: "I'm feeling a bit under the weather.",
       },
     ],
-    practiceQuestions: ['Mereku thakaan ho rahi hai.', 'Mereku garmi lag rahi hai.'],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the correct sentence',
+        options: ['I am hungry.', 'I hungry am.'],
+        correctIndex: 0,
+      },
+    ],
     speakingPrompt: 'Tell me how you are feeling right now, in English.',
   },
   {
@@ -75,8 +88,18 @@ export const lessons: Lesson[] = [
         english: 'I am going to the office now.',
         note: 'Present Continuous — used for something happening right now.',
       },
+      { romanUrdu: 'Main roz chai peeta hoon.', english: 'I drink tea every day.' },
     ],
-    practiceQuestions: ['Woh roz cricket khelta hai.', 'Hum abhi khana kha rahe hain.'],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the correct sentence for a daily routine',
+        options: [
+          'I am going to the office every day.',
+          'I go to the office every day.',
+        ],
+        correctIndex: 1,
+      },
+    ],
     speakingPrompt: 'Say one thing you do every day, and one thing you are doing right now.',
   },
   {
@@ -96,8 +119,22 @@ export const lessons: Lesson[] = [
         english: 'Sara is a doctor. She works a lot.',
         note: '"Sara" → "she"',
       },
+      {
+        romanUrdu: 'Yeh mera phone hai. Yeh naya hai.',
+        english: 'This is my phone. It is new.',
+        note: '"phone" → "it"',
+      },
     ],
-    practiceQuestions: ['Yeh mera phone hai. Yeh naya hai.'],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the correct sentence',
+        options: [
+          'Sara is a doctor. Sara works a lot.',
+          'Sara is a doctor. She works a lot.',
+        ],
+        correctIndex: 1,
+      },
+    ],
     speakingPrompt: 'Describe a friend, then say the same sentence again using "he" or "she".',
   },
   {
@@ -127,7 +164,13 @@ export const lessons: Lesson[] = [
         note: '"improvement" — noun form',
       },
     ],
-    practiceQuestions: ['Mereku apni pronunciation improve karni hai.'],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the correct sentence',
+        options: ['My English has improve a lot.', 'My English has improved a lot.'],
+        correctIndex: 1,
+      },
+    ],
     speakingPrompt: 'Say one thing about yourself that is improving.',
   },
   {
@@ -145,7 +188,13 @@ export const lessons: Lesson[] = [
       { romanUrdu: 'Tumhe jaldi sona chahiye.', english: 'You should sleep early.' },
       { romanUrdu: 'Humein zyada paani peena chahiye.', english: 'We should drink more water.' },
     ],
-    practiceQuestions: ['Tumhe boss se baat karni chahiye.'],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the correct sentence',
+        options: ['You should to see a doctor.', 'You should see a doctor.'],
+        correctIndex: 1,
+      },
+    ],
     speakingPrompt: 'Give a friend one piece of advice using "should".',
   },
   {
@@ -172,7 +221,16 @@ export const lessons: Lesson[] = [
         note: '"follow up" = check on something later',
       },
     ],
-    practiceQuestions: ['Mereku meeting ke baad tumse catch up karna hai.'],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the correct sentence',
+        options: [
+          'I need to finish up this project quickly.',
+          'I need to wrap up this project quickly.',
+        ],
+        correctIndex: 1,
+      },
+    ],
     speakingPrompt: 'Use one phrasal verb (wrap up, sort out, or follow up) in a work sentence.',
   },
   {
@@ -190,6 +248,13 @@ export const lessons: Lesson[] = [
       {
         romanUrdu: 'Hi, mera naam Ayesha hai. Main software developer hoon.',
         english: "Hi, I'm Ayesha. I work as a software developer.",
+      },
+    ],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the more natural introduction',
+        options: ['I am software developer.', "I'm a software developer."],
+        correctIndex: 1,
       },
     ],
     speakingPrompt: 'Now introduce yourself in English, just like in an interview.',
