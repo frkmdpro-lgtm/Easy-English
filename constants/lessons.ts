@@ -1,6 +1,17 @@
-export type Level = 'Beginner' | 'Intermediate' | 'Advanced';
+// The curriculum has 6 levels. `level` is the display name and
+// `levelNumber` is its position, so lessons can be sorted/filtered by
+// stage without parsing strings.
+export type Level =
+  | 'Foundation'
+  | 'Everyday English'
+  | 'Tenses'
+  | 'Intermediate Grammar'
+  | 'Advanced English'
+  | 'Fluency';
 
-export type Category = 'Everyday English' | 'Grammar' | 'Vocabulary' | 'Speaking';
+// Broad content type, independent of level — e.g. "Grammar" lessons exist
+// in both Foundation and Intermediate Grammar.
+export type Category = 'Grammar' | 'Everyday English' | 'Tenses' | 'Vocabulary' | 'Speaking';
 
 // 1 = easiest, 5 = hardest. Independent of `level` so lessons within the
 // same level can still be ordered by difficulty later.
@@ -22,6 +33,13 @@ export type PracticeQuestion = {
 export type Lesson = {
   id: string;
   level: Level;
+  levelNumber: number;
+  // A topic grouping within the level, e.g. "Present Simple" — several
+  // lessons can eventually share a module via matching moduleId.
+  module: string;
+  moduleId: string;
+  // This lesson's position within its module.
+  lessonNumber: number;
   category: Category;
   topic: string;
   difficulty: Difficulty;
@@ -40,14 +58,86 @@ export type Lesson = {
   speakingPrompt?: string;
 };
 
-// This is a small sample set proving the lesson engine supports the full
-// curriculum (everyday phrases through advanced/speaking content), not
-// the full lesson library. The real curriculum will contain hundreds of
-// lessons built on this same shape.
+// This is a small sample set proving the data model supports the full
+// 6-level curriculum, not the full lesson library. The real curriculum
+// will contain hundreds of lessons built on this same shape.
 export const lessons: Lesson[] = [
   {
     id: '1',
-    level: 'Beginner',
+    level: 'Foundation',
+    levelNumber: 1,
+    module: 'Sentence Structure',
+    moduleId: 'sentence-structure',
+    lessonNumber: 1,
+    category: 'Grammar',
+    topic: 'Basic English Sentence Structure',
+    difficulty: 1,
+    romanUrdu: 'Main school jaata hoon.',
+    english: 'I go to school.',
+    naturalEnglish: 'I go to school.',
+    grammarPoint: 'Subject + Verb + Object',
+    explanation:
+      'A basic English sentence follows Subject + Verb + Object order: who does the action, the action, then what it affects.',
+    examples: [
+      {
+        romanUrdu: 'Woh cricket khelta hai.',
+        english: 'He plays cricket.',
+        note: 'He (subject) + plays (verb) + cricket (object)',
+      },
+      { romanUrdu: 'Hum khana khaate hain.', english: 'We eat food.' },
+    ],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the sentence with the correct word order',
+        options: ['Cricket he plays.', 'He plays cricket.'],
+        correctIndex: 1,
+      },
+    ],
+    speakingPrompt: 'Make one simple sentence about yourself using Subject + Verb + Object.',
+  },
+  {
+    id: '2',
+    level: 'Foundation',
+    levelNumber: 1,
+    module: 'Pronouns',
+    moduleId: 'pronouns',
+    lessonNumber: 1,
+    category: 'Grammar',
+    topic: 'Pronouns',
+    difficulty: 1,
+    romanUrdu: 'Ali school jaata hai. Ali cricket bhi khelta hai.',
+    english: 'Ali goes to school. Ali also plays cricket.',
+    naturalEnglish: 'Ali goes to school. He also plays cricket.',
+    grammarPoint: 'Pronouns',
+    explanation: 'Instead of repeating a name, we use a pronoun like "he", "she" or "it".',
+    examples: [
+      {
+        romanUrdu: 'Sara doctor hai. Sara bahut kaam karti hai.',
+        english: 'Sara is a doctor. She works a lot.',
+        note: '"Sara" → "she"',
+      },
+      {
+        romanUrdu: 'Yeh mera phone hai. Yeh naya hai.',
+        english: 'This is my phone. It is new.',
+        note: '"phone" → "it"',
+      },
+    ],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the correct sentence',
+        options: ['Sara is a doctor. Sara works a lot.', 'Sara is a doctor. She works a lot.'],
+        correctIndex: 1,
+      },
+    ],
+    speakingPrompt: 'Describe a friend, then say the same sentence again using "he" or "she".',
+  },
+  {
+    id: '3',
+    level: 'Everyday English',
+    levelNumber: 2,
+    module: 'Everyday Conversations',
+    moduleId: 'everyday-conversations',
+    lessonNumber: 1,
     category: 'Everyday English',
     topic: 'Talking About How You Feel',
     difficulty: 1,
@@ -72,110 +162,145 @@ export const lessons: Lesson[] = [
     speakingPrompt: 'Tell me how you are feeling right now, in English.',
   },
   {
-    id: '2',
-    level: 'Beginner',
-    category: 'Grammar',
-    topic: 'Present Simple vs Present Continuous',
+    id: '4',
+    level: 'Tenses',
+    levelNumber: 3,
+    module: 'Present Simple',
+    moduleId: 'present-simple',
+    lessonNumber: 1,
+    category: 'Tenses',
+    topic: 'Present Simple',
     difficulty: 2,
     romanUrdu: 'Main roz office jaata hoon.',
     english: 'I go to the office every day.',
     naturalEnglish: 'I go to the office every day.',
     grammarPoint: 'Present Simple',
-    explanation: 'We use the present simple for regular or repeated actions.',
+    explanation: 'We use the present simple for regular or repeated actions, facts, and habits.',
+    examples: [
+      { romanUrdu: 'Woh roz cricket khelta hai.', english: 'He plays cricket every day.' },
+      {
+        romanUrdu: 'Suraj poorab se nikalta hai.',
+        english: 'The sun rises in the east.',
+        note: 'A fact — always true',
+      },
+    ],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the sentence about a daily habit',
+        options: ['I am drinking tea.', 'I drink tea every morning.'],
+        correctIndex: 1,
+      },
+    ],
+    speakingPrompt: 'Say one thing you do every day.',
+  },
+  {
+    id: '5',
+    level: 'Tenses',
+    levelNumber: 3,
+    module: 'Present Continuous',
+    moduleId: 'present-continuous',
+    lessonNumber: 1,
+    category: 'Tenses',
+    topic: 'Present Continuous',
+    difficulty: 2,
+    romanUrdu: 'Main abhi office jaara hoon.',
+    english: 'I am going to the office now.',
+    naturalEnglish: 'I am going to the office now.',
+    grammarPoint: 'Present Continuous',
+    explanation: 'We use the present continuous for something happening right now, or around this time.',
+    examples: [
+      { romanUrdu: 'Woh abhi khana kha raha hai.', english: 'He is eating food right now.' },
+      {
+        romanUrdu: 'Is hafte main ek naya project kar raha hoon.',
+        english: 'I am working on a new project this week.',
+        note: 'Happening around now, not this exact second',
+      },
+    ],
+    practiceQuestions: [
+      {
+        prompt: 'Choose the sentence for something happening right now',
+        options: ['I am going to the office now.', 'I go to the office every day.'],
+        correctIndex: 0,
+      },
+    ],
+    speakingPrompt: 'Say one thing you are doing right now.',
+  },
+  {
+    id: '6',
+    level: 'Tenses',
+    levelNumber: 3,
+    module: 'Tense Comparison',
+    moduleId: 'tense-comparison',
+    lessonNumber: 1,
+    category: 'Tenses',
+    topic: 'Present Simple vs Present Continuous',
+    difficulty: 3,
+    romanUrdu: 'Main roz office jaata hoon.',
+    english: 'I go to the office every day.',
+    naturalEnglish: 'I go to the office every day.',
+    grammarPoint: 'Present Simple vs Present Continuous',
+    explanation:
+      'Present simple is for regular actions. Present continuous is for something happening right now. Comparing them side by side helps you choose the right one.',
     examples: [
       {
         romanUrdu: 'Main abhi office jaara hoon.',
         english: 'I am going to the office now.',
-        note: 'Present Continuous — used for something happening right now.',
+        note: 'Present Continuous — happening now',
       },
-      { romanUrdu: 'Main roz chai peeta hoon.', english: 'I drink tea every day.' },
+      {
+        romanUrdu: 'Main roz chai peeta hoon.',
+        english: 'I drink tea every day.',
+        note: 'Present Simple — daily habit',
+      },
     ],
     practiceQuestions: [
       {
         prompt: 'Choose the correct sentence for a daily routine',
-        options: [
-          'I am going to the office every day.',
-          'I go to the office every day.',
-        ],
+        options: ['I am going to the office every day.', 'I go to the office every day.'],
         correctIndex: 1,
       },
     ],
     speakingPrompt: 'Say one thing you do every day, and one thing you are doing right now.',
   },
   {
-    id: '3',
-    level: 'Beginner',
-    category: 'Grammar',
-    topic: 'Pronouns',
-    difficulty: 1,
-    romanUrdu: 'Ali school jaata hai. Ali cricket bhi khelta hai.',
-    english: 'Ali goes to school. Ali also plays cricket.',
-    naturalEnglish: 'Ali goes to school. He also plays cricket.',
-    grammarPoint: 'Pronouns',
-    explanation: 'Instead of repeating a name, we use a pronoun like "he", "she" or "it".',
-    examples: [
-      {
-        romanUrdu: 'Sara doctor hai. Sara bahut kaam karti hai.',
-        english: 'Sara is a doctor. She works a lot.',
-        note: '"Sara" → "she"',
-      },
-      {
-        romanUrdu: 'Yeh mera phone hai. Yeh naya hai.',
-        english: 'This is my phone. It is new.',
-        note: '"phone" → "it"',
-      },
-    ],
-    practiceQuestions: [
-      {
-        prompt: 'Choose the correct sentence',
-        options: [
-          'Sara is a doctor. Sara works a lot.',
-          'Sara is a doctor. She works a lot.',
-        ],
-        correctIndex: 1,
-      },
-    ],
-    speakingPrompt: 'Describe a friend, then say the same sentence again using "he" or "she".',
-  },
-  {
-    id: '4',
-    level: 'Beginner',
-    category: 'Vocabulary',
-    topic: 'Word in Context: Improve',
+    id: '7',
+    level: 'Tenses',
+    levelNumber: 3,
+    module: 'Past Simple',
+    moduleId: 'past-simple',
+    lessonNumber: 1,
+    category: 'Tenses',
+    topic: 'Past Simple',
     difficulty: 2,
-    romanUrdu: 'Mereku apni English improve karni hai.',
-    english: 'I want to improve my English.',
-    naturalEnglish: 'I want to improve my English.',
-    explanation:
-      '"Improve" means to get better at something. Roman Urdu speakers often use it directly, just like in English.',
+    romanUrdu: 'Kal maine office mein kaam kiya.',
+    english: 'Yesterday I worked at the office.',
+    naturalEnglish: 'I worked at the office yesterday.',
+    grammarPoint: 'Past Simple',
+    explanation: 'We use the past simple for actions that started and finished in the past.',
     examples: [
+      { romanUrdu: 'Humne pichle hafte movie dekhi.', english: 'We watched a movie last week.' },
       {
-        romanUrdu: 'Mereku apni communication skills improve karni hain.',
-        english: 'I need to improve my communication skills.',
-      },
-      {
-        romanUrdu: 'Meri English bahut improve ho gayi hai.',
-        english: 'My English has improved a lot.',
-        note: '"improved" — past form',
-      },
-      {
-        romanUrdu: 'Yeh ek achha improvement hai.',
-        english: 'This is a good improvement.',
-        note: '"improvement" — noun form',
+        romanUrdu: 'Woh school gaya tha.',
+        english: 'He went to school.',
+        note: '"went" — irregular past form of "go"',
       },
     ],
     practiceQuestions: [
       {
-        prompt: 'Choose the correct sentence',
-        options: ['My English has improve a lot.', 'My English has improved a lot.'],
+        prompt: 'Choose the correct past simple sentence',
+        options: ['I go to the office yesterday.', 'I went to the office yesterday.'],
         correctIndex: 1,
       },
     ],
-    speakingPrompt: 'Say one thing about yourself that is improving.',
+    speakingPrompt: 'Say one thing you did yesterday.',
   },
   {
-    id: '5',
-    level: 'Intermediate',
+    id: '8',
+    level: 'Intermediate Grammar',
+    levelNumber: 4,
+    module: 'Modal Verbs',
+    moduleId: 'modal-verbs',
+    lessonNumber: 1,
     category: 'Grammar',
     topic: 'Modal Verbs: Should',
     difficulty: 3,
@@ -198,10 +323,14 @@ export const lessons: Lesson[] = [
     speakingPrompt: 'Give a friend one piece of advice using "should".',
   },
   {
-    id: '6',
-    level: 'Advanced',
+    id: '9',
+    level: 'Advanced English',
+    levelNumber: 5,
+    module: 'Phrasal Verbs',
+    moduleId: 'phrasal-verbs',
+    lessonNumber: 1,
     category: 'Vocabulary',
-    topic: 'Phrasal Verbs at Work',
+    topic: 'Phrasal Verbs in Professional English',
     difficulty: 4,
     romanUrdu: 'Mereku yeh project jaldi wrap up karna hai.',
     english: 'I need to wrap up this project quickly.',
@@ -234,8 +363,12 @@ export const lessons: Lesson[] = [
     speakingPrompt: 'Use one phrasal verb (wrap up, sort out, or follow up) in a work sentence.',
   },
   {
-    id: '7',
-    level: 'Intermediate',
+    id: '10',
+    level: 'Fluency',
+    levelNumber: 6,
+    module: 'Self-Introduction',
+    moduleId: 'self-introduction',
+    lessonNumber: 1,
     category: 'Speaking',
     topic: 'Introducing Yourself',
     difficulty: 3,
