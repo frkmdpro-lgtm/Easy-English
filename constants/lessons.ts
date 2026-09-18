@@ -1,0 +1,173 @@
+export type Category = 'Daily Life' | 'Office' | 'Shopping' | 'Friends' | 'Travel';
+
+export type Lesson = {
+  id: string;
+  category: Category;
+  romanUrdu: string;
+  english: string;
+  naturalEnglish: string;
+  explanation: string;
+};
+
+export const lessons: Lesson[] = [
+  {
+    id: '1',
+    category: 'Daily Life',
+    romanUrdu: 'Mereku bhook lagi hai.',
+    english: 'I am hungry.',
+    naturalEnglish: "I'm hungry.",
+    explanation: 'Bhook lagi hai → I am hungry / I\'m hungry',
+  },
+  {
+    id: '2',
+    category: 'Daily Life',
+    romanUrdu: 'Mereku neend aa rahi hai.',
+    english: 'I am feeling sleepy.',
+    naturalEnglish: "I'm sleepy.",
+    explanation: 'Neend aa rahi hai → feeling sleepy',
+  },
+  {
+    id: '3',
+    category: 'Daily Life',
+    romanUrdu: 'Baarish ho rahi hai.',
+    english: 'It is raining.',
+    naturalEnglish: "It's raining.",
+    explanation: 'Baarish ho rahi hai → it is raining',
+  },
+  {
+    id: '4',
+    category: 'Daily Life',
+    romanUrdu: 'Mereku thodi tabiyat kharab hai.',
+    english: 'I am feeling a little unwell.',
+    naturalEnglish: "I'm feeling a bit under the weather.",
+    explanation: 'Tabiyat kharab hai → feeling unwell / not well',
+  },
+  {
+    id: '5',
+    category: 'Office',
+    romanUrdu: 'Mereku meeting mein late hogaya.',
+    english: 'I got late for the meeting.',
+    naturalEnglish: 'I ran late for the meeting.',
+    explanation: 'Late hogaya → got late / ran late',
+  },
+  {
+    id: '6',
+    category: 'Office',
+    romanUrdu: 'Mereku kal office jaana hai.',
+    english: 'I have to go to the office tomorrow.',
+    naturalEnglish: "I've got to go to the office tomorrow.",
+    explanation: 'Jaana hai → have to go',
+  },
+  {
+    id: '7',
+    category: 'Office',
+    romanUrdu: 'Boss ne kaam jaldi maanga hai.',
+    english: 'The boss has asked for the work quickly.',
+    naturalEnglish: 'The boss wants this done soon.',
+    explanation: 'Jaldi maanga hai → asked for it quickly / wants it soon',
+  },
+  {
+    id: '8',
+    category: 'Office',
+    romanUrdu: 'Mereku thodi der lagegi report complete karne mein.',
+    english: 'It will take me a little time to complete the report.',
+    naturalEnglish: "I'll need a bit more time to finish the report.",
+    explanation: 'Der lagegi → it will take time',
+  },
+  {
+    id: '9',
+    category: 'Shopping',
+    romanUrdu: 'Yeh kitne ka hai?',
+    english: 'How much is this?',
+    naturalEnglish: 'How much is this?',
+    explanation: 'Kitne ka hai → how much does it cost',
+  },
+  {
+    id: '10',
+    category: 'Shopping',
+    romanUrdu: 'Thoda kam karo na bhai.',
+    english: 'Please reduce the price a bit.',
+    naturalEnglish: 'Can you bring the price down a little?',
+    explanation: 'Kam karo → reduce / bring down (the price)',
+  },
+  {
+    id: '11',
+    category: 'Shopping',
+    romanUrdu: 'Mereku yeh size nahi hai.',
+    english: 'I don\'t have this size.',
+    naturalEnglish: "I don't have this one in stock.",
+    explanation: 'Nahi hai → don\'t have / not available',
+  },
+  {
+    id: '12',
+    category: 'Shopping',
+    romanUrdu: 'Card se ho jayega kya?',
+    english: 'Will it work with card?',
+    naturalEnglish: 'Can I pay by card?',
+    explanation: 'Ho jayega kya → will it work / is it possible',
+  },
+  {
+    id: '13',
+    category: 'Friends',
+    romanUrdu: 'Kya scene hai aaj?',
+    english: 'What is the scene today?',
+    naturalEnglish: "What's the plan today?",
+    explanation: 'Kya scene hai → what\'s going on / what\'s the plan',
+  },
+  {
+    id: '14',
+    category: 'Friends',
+    romanUrdu: 'Mereku thoda late ho jayega aane mein.',
+    english: 'I will be a little late in coming.',
+    naturalEnglish: "I'm going to be a bit late.",
+    explanation: 'Late ho jayega → will be late',
+  },
+  {
+    id: '15',
+    category: 'Friends',
+    romanUrdu: 'Chalo kahin ghoomne chalte hain.',
+    english: 'Let us go somewhere to roam around.',
+    naturalEnglish: "Let's go hang out somewhere.",
+    explanation: 'Ghoomne chalte hain → let\'s go hang out / roam around',
+  },
+  {
+    id: '16',
+    category: 'Friends',
+    romanUrdu: 'Mereku bhi bata dena plan kya hai.',
+    english: 'Let me know what the plan is too.',
+    naturalEnglish: 'Keep me posted on the plan.',
+    explanation: 'Bata dena → let me know / keep me posted',
+  },
+  {
+    id: '17',
+    category: 'Travel',
+    romanUrdu: 'Yeh bus kahan jaati hai?',
+    english: 'Where does this bus go?',
+    naturalEnglish: "Where's this bus headed?",
+    explanation: 'Kahan jaati hai → where does it go',
+  },
+  {
+    id: '18',
+    category: 'Travel',
+    romanUrdu: 'Mereku airport jaana hai jaldi.',
+    english: 'I have to go to the airport quickly.',
+    naturalEnglish: 'I need to get to the airport fast.',
+    explanation: 'Jaldi jaana hai → need to go quickly / fast',
+  },
+  {
+    id: '19',
+    category: 'Travel',
+    romanUrdu: 'Kitni door hai station yahan se?',
+    english: 'How far is the station from here?',
+    naturalEnglish: 'How far is the station from here?',
+    explanation: 'Kitni door hai → how far is it',
+  },
+  {
+    id: '20',
+    category: 'Travel',
+    romanUrdu: 'Mereku raasta nahi pata is jagah ka.',
+    english: 'I do not know the way to this place.',
+    naturalEnglish: "I don't know how to get there.",
+    explanation: 'Raasta nahi pata → don\'t know the way',
+  },
+];
