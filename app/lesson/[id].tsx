@@ -19,6 +19,7 @@ type Step =
   | 'negative'
   | 'questions'
   | 'mistakes'
+  | 'comparison'
   | 'examples'
   | 'practice'
   | 'speak';
@@ -31,6 +32,7 @@ function getSteps(lesson: Lesson): Step[] {
   if (lesson.negativeExamples?.length) steps.push('negative');
   if (lesson.questionExamples?.length) steps.push('questions');
   if (lesson.commonMistakes?.length) steps.push('mistakes');
+  if (lesson.comparison) steps.push('comparison');
   if (lesson.examples?.length) steps.push('examples');
   if (lesson.practiceQuestions?.length) steps.push('practice');
   if (lesson.speakingPrompt) steps.push('speak');
@@ -236,6 +238,35 @@ export default function LessonScreen() {
                   <Text style={styles.exampleNote}>{mistake.explanation}</Text>
                 </View>
               ))}
+            </View>
+          )}
+
+          {step === 'comparison' && lesson.comparison && (
+            <View>
+              <Text style={styles.caption}>{lesson.comparison.title}</Text>
+              <View style={{ height: spacing.lg }} />
+
+              <Text style={styles.structureLabel}>{lesson.comparison.firstExample.label}</Text>
+              <View style={{ height: spacing.xs }} />
+              <Text style={styles.exampleRoman}>{lesson.comparison.firstExample.romanUrdu}</Text>
+              <View style={{ height: spacing.xs }} />
+              <Text style={styles.exampleEnglish}>{lesson.comparison.firstExample.english}</Text>
+
+              <View style={{ height: spacing.lg }} />
+              <Text style={styles.vsText}>VS</Text>
+              <View style={{ height: spacing.lg }} />
+
+              <Text style={styles.structureLabel}>{lesson.comparison.secondExample.label}</Text>
+              <View style={{ height: spacing.xs }} />
+              <Text style={styles.exampleRoman}>{lesson.comparison.secondExample.romanUrdu}</Text>
+              <View style={{ height: spacing.xs }} />
+              <Text style={styles.exampleEnglish}>{lesson.comparison.secondExample.english}</Text>
+
+              <View style={styles.divider} />
+
+              <Text style={styles.caption}>When to use which?</Text>
+              <View style={{ height: spacing.xs }} />
+              <Text style={styles.explanation}>{lesson.comparison.explanation}</Text>
             </View>
           )}
 
@@ -473,6 +504,14 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.lg,
     color: colors.text,
     fontWeight: '700',
+  },
+  vsText: {
+    fontSize: fontSizes.xs,
+    color: colors.textTertiary,
+    fontWeight: '700',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   divider: {
     height: 1,

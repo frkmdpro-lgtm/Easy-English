@@ -41,6 +41,21 @@ export type CommonMistake = {
   explanation: string;
 };
 
+// Generic enough to contrast any two structures later, e.g.
+// Present Simple vs Present Continuous, Will vs Going To, Say vs Tell.
+export type ComparisonSide = {
+  label: string; // e.g. "Present Simple"
+  romanUrdu: string;
+  english: string;
+};
+
+export type Comparison = {
+  title: string; // e.g. "Present Simple vs Present Continuous"
+  firstExample: ComparisonSide;
+  secondExample: ComparisonSide;
+  explanation: string;
+};
+
 export type Lesson = {
   id: string;
   level: Level;
@@ -75,6 +90,9 @@ export type Lesson = {
   negativeExamples?: LessonExample[];
   questionExamples?: LessonExample[];
   commonMistakes?: CommonMistake[];
+  // A short contrast against a related structure, when relevant, e.g.
+  // Present Simple vs Present Continuous.
+  comparison?: Comparison;
   // A single check-for-understanding question, when relevant.
   practiceQuestions?: PracticeQuestion[];
   // Open-ended prompt for the Speaking step, when relevant.
@@ -260,6 +278,21 @@ export const lessons: Lesson[] = [
         explanation: 'After does, use the base verb — no extra -s.',
       },
     ],
+    comparison: {
+      title: 'Present Simple vs Present Continuous',
+      firstExample: {
+        label: 'Present Simple',
+        romanUrdu: 'Main roz office jaata hoon.',
+        english: 'I go to the office every day.',
+      },
+      secondExample: {
+        label: 'Present Continuous',
+        romanUrdu: 'Main abhi office jaara hoon.',
+        english: 'I am going to the office now.',
+      },
+      explanation:
+        'Present Simple is used for regular or repeated actions. Present Continuous is used for something happening now.',
+    },
     practiceQuestions: [
       {
         prompt: 'Choose the correct sentence',
