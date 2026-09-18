@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     color: colors.primary,
   },
   feedbackRetry: {
-    color: colors.accent,
+    color: colors.textMuted,
   },
   micButton: {
     width: MIC_SIZE,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     opacity: 0.85,
   },
   micButtonActive: {
-    backgroundColor: colors.accent,
+    opacity: 0.5,
   },
   micIcon: {
     fontSize: 48,

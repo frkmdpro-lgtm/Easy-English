@@ -1,173 +1,197 @@
-export type Category = 'Daily Life' | 'Office' | 'Shopping' | 'Friends' | 'Travel';
+export type Level = 'Beginner' | 'Intermediate' | 'Advanced';
+
+export type Category = 'Everyday English' | 'Grammar' | 'Vocabulary' | 'Speaking';
+
+// 1 = easiest, 5 = hardest. Independent of `level` so lessons within the
+// same level can still be ordered by difficulty later.
+export type Difficulty = 1 | 2 | 3 | 4 | 5;
+
+export type LessonExample = {
+  romanUrdu: string;
+  english: string;
+  // Optional short note, e.g. contrasting grammar or a related word form.
+  note?: string;
+};
 
 export type Lesson = {
   id: string;
+  level: Level;
   category: Category;
+  topic: string;
+  difficulty: Difficulty;
   romanUrdu: string;
   english: string;
   naturalEnglish: string;
+  // Present only on lessons that teach a specific grammar point.
+  grammarPoint?: string;
   explanation: string;
+  // Extra contrasting/contextual sentences beyond the main phrase.
+  examples?: LessonExample[];
+  // Extra Roman Urdu prompts for the Practice screen to draw on later.
+  practiceQuestions?: string[];
+  // Open-ended prompt for the Speaking flow.
+  speakingPrompt?: string;
 };
 
+// This is a small sample set proving the data model supports the full
+// curriculum (everyday phrases through advanced/speaking content), not
+// the full lesson library. The real curriculum will contain hundreds of
+// lessons built on this same shape.
 export const lessons: Lesson[] = [
   {
     id: '1',
-    category: 'Daily Life',
+    level: 'Beginner',
+    category: 'Everyday English',
+    topic: 'Talking About How You Feel',
+    difficulty: 1,
     romanUrdu: 'Mereku bhook lagi hai.',
     english: 'I am hungry.',
     naturalEnglish: "I'm hungry.",
-    explanation: 'Bhook lagi hai → I am hungry / I\'m hungry',
+    explanation: 'Use "I am ___" or "I\'m ___" to talk about how you feel right now.',
+    examples: [
+      { romanUrdu: 'Mereku neend aa rahi hai.', english: "I'm sleepy." },
+      {
+        romanUrdu: 'Mereku thodi tabiyat kharab hai.',
+        english: "I'm feeling a bit under the weather.",
+      },
+    ],
+    practiceQuestions: ['Mereku thakaan ho rahi hai.', 'Mereku garmi lag rahi hai.'],
+    speakingPrompt: 'Tell me how you are feeling right now, in English.',
   },
   {
     id: '2',
-    category: 'Daily Life',
-    romanUrdu: 'Mereku neend aa rahi hai.',
-    english: 'I am feeling sleepy.',
-    naturalEnglish: "I'm sleepy.",
-    explanation: 'Neend aa rahi hai → feeling sleepy',
+    level: 'Beginner',
+    category: 'Grammar',
+    topic: 'Present Simple vs Present Continuous',
+    difficulty: 2,
+    romanUrdu: 'Main roz office jaata hoon.',
+    english: 'I go to the office every day.',
+    naturalEnglish: 'I go to the office every day.',
+    grammarPoint: 'Present Simple',
+    explanation: 'We use the present simple for regular or repeated actions.',
+    examples: [
+      {
+        romanUrdu: 'Main abhi office jaara hoon.',
+        english: 'I am going to the office now.',
+        note: 'Present Continuous — used for something happening right now.',
+      },
+    ],
+    practiceQuestions: ['Woh roz cricket khelta hai.', 'Hum abhi khana kha rahe hain.'],
+    speakingPrompt: 'Say one thing you do every day, and one thing you are doing right now.',
   },
   {
     id: '3',
-    category: 'Daily Life',
-    romanUrdu: 'Baarish ho rahi hai.',
-    english: 'It is raining.',
-    naturalEnglish: "It's raining.",
-    explanation: 'Baarish ho rahi hai → it is raining',
+    level: 'Beginner',
+    category: 'Grammar',
+    topic: 'Pronouns',
+    difficulty: 1,
+    romanUrdu: 'Ali school jaata hai. Ali cricket bhi khelta hai.',
+    english: 'Ali goes to school. Ali also plays cricket.',
+    naturalEnglish: 'Ali goes to school. He also plays cricket.',
+    grammarPoint: 'Pronouns',
+    explanation: 'Instead of repeating a name, we use a pronoun like "he", "she" or "it".',
+    examples: [
+      {
+        romanUrdu: 'Sara doctor hai. Sara bahut kaam karti hai.',
+        english: 'Sara is a doctor. She works a lot.',
+        note: '"Sara" → "she"',
+      },
+    ],
+    practiceQuestions: ['Yeh mera phone hai. Yeh naya hai.'],
+    speakingPrompt: 'Describe a friend, then say the same sentence again using "he" or "she".',
   },
   {
     id: '4',
-    category: 'Daily Life',
-    romanUrdu: 'Mereku thodi tabiyat kharab hai.',
-    english: 'I am feeling a little unwell.',
-    naturalEnglish: "I'm feeling a bit under the weather.",
-    explanation: 'Tabiyat kharab hai → feeling unwell / not well',
+    level: 'Beginner',
+    category: 'Vocabulary',
+    topic: 'Word in Context: Improve',
+    difficulty: 2,
+    romanUrdu: 'Mereku apni English improve karni hai.',
+    english: 'I want to improve my English.',
+    naturalEnglish: 'I want to improve my English.',
+    explanation:
+      '"Improve" means to get better at something. Roman Urdu speakers often use it directly, just like in English.',
+    examples: [
+      {
+        romanUrdu: 'Mereku apni communication skills improve karni hain.',
+        english: 'I need to improve my communication skills.',
+      },
+      {
+        romanUrdu: 'Meri English bahut improve ho gayi hai.',
+        english: 'My English has improved a lot.',
+        note: '"improved" — past form',
+      },
+      {
+        romanUrdu: 'Yeh ek achha improvement hai.',
+        english: 'This is a good improvement.',
+        note: '"improvement" — noun form',
+      },
+    ],
+    practiceQuestions: ['Mereku apni pronunciation improve karni hai.'],
+    speakingPrompt: 'Say one thing about yourself that is improving.',
   },
   {
     id: '5',
-    category: 'Office',
-    romanUrdu: 'Mereku meeting mein late hogaya.',
-    english: 'I got late for the meeting.',
-    naturalEnglish: 'I ran late for the meeting.',
-    explanation: 'Late hogaya → got late / ran late',
+    level: 'Intermediate',
+    category: 'Grammar',
+    topic: 'Modal Verbs: Should',
+    difficulty: 3,
+    romanUrdu: 'Mereku lagta hai tumhe doctor ko dikhana chahiye.',
+    english: 'I think you should see a doctor.',
+    naturalEnglish: 'I think you should see a doctor.',
+    grammarPoint: 'Modal Verbs (should)',
+    explanation: 'We use "should" to give advice or say what is a good idea.',
+    examples: [
+      { romanUrdu: 'Tumhe jaldi sona chahiye.', english: 'You should sleep early.' },
+      { romanUrdu: 'Humein zyada paani peena chahiye.', english: 'We should drink more water.' },
+    ],
+    practiceQuestions: ['Tumhe boss se baat karni chahiye.'],
+    speakingPrompt: 'Give a friend one piece of advice using "should".',
   },
   {
     id: '6',
-    category: 'Office',
-    romanUrdu: 'Mereku kal office jaana hai.',
-    english: 'I have to go to the office tomorrow.',
-    naturalEnglish: "I've got to go to the office tomorrow.",
-    explanation: 'Jaana hai → have to go',
+    level: 'Advanced',
+    category: 'Vocabulary',
+    topic: 'Phrasal Verbs at Work',
+    difficulty: 4,
+    romanUrdu: 'Mereku yeh project jaldi wrap up karna hai.',
+    english: 'I need to wrap up this project quickly.',
+    naturalEnglish: 'I need to wrap up this project quickly.',
+    grammarPoint: 'Phrasal Verbs',
+    explanation:
+      '"Wrap up" means to finish something. Phrasal verbs like this sound more natural than formal words like "complete" in everyday conversation.',
+    examples: [
+      {
+        romanUrdu: 'Mereku is issue ko sort out karna hai.',
+        english: 'I need to sort out this issue.',
+        note: '"sort out" = resolve',
+      },
+      {
+        romanUrdu: 'Chalo is topic ko follow up karte hain kal.',
+        english: "Let's follow up on this topic tomorrow.",
+        note: '"follow up" = check on something later',
+      },
+    ],
+    practiceQuestions: ['Mereku meeting ke baad tumse catch up karna hai.'],
+    speakingPrompt: 'Use one phrasal verb (wrap up, sort out, or follow up) in a work sentence.',
   },
   {
     id: '7',
-    category: 'Office',
-    romanUrdu: 'Boss ne kaam jaldi maanga hai.',
-    english: 'The boss has asked for the work quickly.',
-    naturalEnglish: 'The boss wants this done soon.',
-    explanation: 'Jaldi maanga hai → asked for it quickly / wants it soon',
-  },
-  {
-    id: '8',
-    category: 'Office',
-    romanUrdu: 'Mereku thodi der lagegi report complete karne mein.',
-    english: 'It will take me a little time to complete the report.',
-    naturalEnglish: "I'll need a bit more time to finish the report.",
-    explanation: 'Der lagegi → it will take time',
-  },
-  {
-    id: '9',
-    category: 'Shopping',
-    romanUrdu: 'Yeh kitne ka hai?',
-    english: 'How much is this?',
-    naturalEnglish: 'How much is this?',
-    explanation: 'Kitne ka hai → how much does it cost',
-  },
-  {
-    id: '10',
-    category: 'Shopping',
-    romanUrdu: 'Thoda kam karo na bhai.',
-    english: 'Please reduce the price a bit.',
-    naturalEnglish: 'Can you bring the price down a little?',
-    explanation: 'Kam karo → reduce / bring down (the price)',
-  },
-  {
-    id: '11',
-    category: 'Shopping',
-    romanUrdu: 'Mereku yeh size nahi hai.',
-    english: 'I don\'t have this size.',
-    naturalEnglish: "I don't have this one in stock.",
-    explanation: 'Nahi hai → don\'t have / not available',
-  },
-  {
-    id: '12',
-    category: 'Shopping',
-    romanUrdu: 'Card se ho jayega kya?',
-    english: 'Will it work with card?',
-    naturalEnglish: 'Can I pay by card?',
-    explanation: 'Ho jayega kya → will it work / is it possible',
-  },
-  {
-    id: '13',
-    category: 'Friends',
-    romanUrdu: 'Kya scene hai aaj?',
-    english: 'What is the scene today?',
-    naturalEnglish: "What's the plan today?",
-    explanation: 'Kya scene hai → what\'s going on / what\'s the plan',
-  },
-  {
-    id: '14',
-    category: 'Friends',
-    romanUrdu: 'Mereku thoda late ho jayega aane mein.',
-    english: 'I will be a little late in coming.',
-    naturalEnglish: "I'm going to be a bit late.",
-    explanation: 'Late ho jayega → will be late',
-  },
-  {
-    id: '15',
-    category: 'Friends',
-    romanUrdu: 'Chalo kahin ghoomne chalte hain.',
-    english: 'Let us go somewhere to roam around.',
-    naturalEnglish: "Let's go hang out somewhere.",
-    explanation: 'Ghoomne chalte hain → let\'s go hang out / roam around',
-  },
-  {
-    id: '16',
-    category: 'Friends',
-    romanUrdu: 'Mereku bhi bata dena plan kya hai.',
-    english: 'Let me know what the plan is too.',
-    naturalEnglish: 'Keep me posted on the plan.',
-    explanation: 'Bata dena → let me know / keep me posted',
-  },
-  {
-    id: '17',
-    category: 'Travel',
-    romanUrdu: 'Yeh bus kahan jaati hai?',
-    english: 'Where does this bus go?',
-    naturalEnglish: "Where's this bus headed?",
-    explanation: 'Kahan jaati hai → where does it go',
-  },
-  {
-    id: '18',
-    category: 'Travel',
-    romanUrdu: 'Mereku airport jaana hai jaldi.',
-    english: 'I have to go to the airport quickly.',
-    naturalEnglish: 'I need to get to the airport fast.',
-    explanation: 'Jaldi jaana hai → need to go quickly / fast',
-  },
-  {
-    id: '19',
-    category: 'Travel',
-    romanUrdu: 'Kitni door hai station yahan se?',
-    english: 'How far is the station from here?',
-    naturalEnglish: 'How far is the station from here?',
-    explanation: 'Kitni door hai → how far is it',
-  },
-  {
-    id: '20',
-    category: 'Travel',
-    romanUrdu: 'Mereku raasta nahi pata is jagah ka.',
-    english: 'I do not know the way to this place.',
-    naturalEnglish: "I don't know how to get there.",
-    explanation: 'Raasta nahi pata → don\'t know the way',
+    level: 'Intermediate',
+    category: 'Speaking',
+    topic: 'Introducing Yourself',
+    difficulty: 3,
+    romanUrdu: 'Interview mein apna introduction kaise dete hain?',
+    english: 'How do you introduce yourself in an interview?',
+    naturalEnglish: 'How do you introduce yourself in an interview?',
+    explanation:
+      'A good introduction is short, clear, and confident: your name, what you do, and one interesting detail.',
+    examples: [
+      {
+        romanUrdu: 'Hi, mera naam Ayesha hai. Main software developer hoon.',
+        english: "Hi, I'm Ayesha. I work as a software developer.",
+      },
+    ],
+    speakingPrompt: 'Now introduce yourself in English, just like in an interview.',
   },
 ];

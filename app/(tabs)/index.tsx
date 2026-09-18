@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   cardCategory: {
     fontSize: fontSizes.xs,
-    color: colors.accent,
+    color: colors.textTertiary,
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
